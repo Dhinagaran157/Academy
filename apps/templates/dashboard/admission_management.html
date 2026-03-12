@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions Management · AEROVANT ACADEMY</title>
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0b0c15, #010101 90%);
+            overflow-x: hidden;
+            color: #eef2fb;
+            line-height: 1.5;
+        }
+
+        /* Animated gradient orbs */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 30% 50%, rgba(85, 130, 250, 0.2) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 200, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Hyper-glass navbar */
+        .navbar {
+            background: rgba(8, 12, 25, 0.7) !important;
+            backdrop-filter: blur(18px) saturate(200%);
+            border-bottom: 1px solid rgba(120, 160, 255, 0.25);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
+            padding: 14px 28px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #ffffff, #b0cbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-right: 2px solid rgba(255,255,255,0.2);
+            padding-right: 24px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(110, 150, 255, 0.5);
+            backdrop-filter: blur(8px);
+            color: #cfdeff;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,30,100,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logout-btn:hover {
+            background: rgba(50, 100, 255, 0.2);
+            border-color: #6d9cff;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px #2640ff40;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            min-height: 100vh;
+            background: rgba(12, 16, 33, 0.6);
+            backdrop-filter: blur(20px) saturate(220%);
+            border-right: 1px solid rgba(72, 120, 255, 0.2);
+            box-shadow: 12px 0 40px -20px #000000cc;
+            padding: 28px 16px;
+        }
+
+        .sidebar h6 {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8ba1d0;
+            margin-bottom: 28px;
+            font-weight: 400;
+            border-bottom: 1px dashed #3d5070;
+            padding-bottom: 14px;
+        }
+
+        .sidebar .nav-link {
+            color: #b2c6ec;
+            padding: 12px 18px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 450;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            backdrop-filter: blur(4px);
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar .nav-link i {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            width: 26px;
+            color: #95b2ff;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(45, 85, 255, 0.2);
+            border-color: rgba(65, 130, 255, 0.5);
+            box-shadow: 0 10px 20px -10px #2f6eff, inset 0 1px 2px #ffffff40;
+            color: white;
+            transform: translateX(8px);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        main { padding: 30px 36px !important; }
+
+        /* Page header */
+        .page-header {
+            font-size: 2.4rem;
+            font-weight: 600;
+            background: linear-gradient(140deg, #ffffff, #b3d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3d80ff, #a0f0ff, transparent);
+            margin-top: 8px;
+            border-radius: 4px;
+        }
+
+        /* Admission status badges */
+        .status-pending { background: rgba(255, 193, 7, 0.2); border: 1px solid #ffc107; color: #fff3cd; }
+        .status-approved { background: rgba(40, 167, 69, 0.2); border: 1px solid #28a745; color: #d4edda; }
+        .status-rejected { background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #f8d7da; }
+
+        /* Admission cards */
+        .admission-card {
+            background: rgba(15, 22, 45, 0.5);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admission-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            border-color: rgba(120, 180, 255, 0.3);
+        }
+
+        .admission-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5d9eff, #a0f0ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .action-buttons .btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0 4px 8px 0;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .btn-approve {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+            color: #d4edda;
+        }
+
+        .btn-reject {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+            color: #f8d7da;
+        }
+
+        .btn-view {
+            background: rgba(0, 123, 255, 0.2);
+            border: 1px solid #007bff;
+            color: #cce7ff;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(12, 22, 45, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px 24px;
+            text-align: center;
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #fff, #d6e6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Search & Filter */
+        .search-filter {
+            background: rgba(12, 22, 45, 0.45);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 16px 24px;
+            margin-bottom: 28px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { min-height: auto; }
+            .stats-row { flex-direction: column; }
+        }
+        option{
+            color:black;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hyper-glass navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid px-0">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-brightness-alt-high-fill me-2" style="color:#5d9eff;"></i> 
+            AEROVANT <span style="font-weight:300; background:none; -webkit-text-fill-color:#b0d0ff;">| ACADEMY</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="text-white-50 d-none d-sm-inline">
+                <i class="bi bi-person-circle me-1" style="font-size:1.4rem; vertical-align: middle;"></i>
+                <span class="fw-light">admin</span>
+            </span>
+            <a href="/logout/" class="logout-btn">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="container-fluid g-0">
+    <div class="row g-0">
+        <!-- Sidebar -->
+                <nav class="col-md-2 sidebar d-none d-md-block">
+            <h6><i class="bi bi-grid-fill me-2"></i> NAVIGATION</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/dashboard/">
+                        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/student_Enroll/">
+                        <i class="bi bi-people-fill"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/staff_register/">
+                        <i class="bi bi-person-plus-fill"></i> Staff Register
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-course/">
+                        <i class="bi bi-journal-bookmark-fill"></i> Courses
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/enquiry-list/">
+                        <i class="bi bi-chat-dots-fill"></i> Enquiries
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admission_details/">
+                        <i class="bi bi-person-plus-fill"></i> Admissions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/certification_details/">
+                        <i class="bi bi-award-fill"></i> <span>Certificates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gallery_upload/">
+                        <i class="bi bi-images"></i> <span>Gallery</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings/">
+                        <i class="bi bi-gear-fill"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-10 ms-auto">
+            <!-- Page Header -->
+            <h1 class="page-header">Admissions Management 
+                <span class="badge bg-transparent border border-warning text-warning ms-3">
+                    <i class="bi bi-circle-fill text-warning me-1" style="font-size: 0.6rem;"></i> 
+                    12 PENDING
+                </span>
+            </h1>
+
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number">247</div>
+                    <div style="color: #a5c2ff; font-size: 0.85rem;">Total Applications</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number text-success">189</div>
+                    <div style="color: #a5c2ff; font-size: 0.85rem;">Approved</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number text-warning">12</div>
+                    <div style="color: #a5c2ff; font-size: 0.85rem;">Pending Review</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number text-danger">46</div>
+                    <div style="color: #a5c2ff; font-size: 0.85rem;">Rejected</div>
+                </div>
+            </div>
+
+            <!-- Search & Filter -->
+            <div class="search-filter">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="input-group" style="max-width: 300px;">
+                            <span class="input-group-text bg-transparent border-0 text-muted">
+                                <i class="bi bi-search" style=color:white;></i>
+                            </span>
+                            <input type="text" class="form-control bg-transparent border-0 text-white ps-0" 
+                                   placeholder="Search applications..." style="backdrop-filter: blur(10px);">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                                <i class="bi bi-search" style=color:white;></i>
+                        <select class="form-select bg-transparent border-0 text-white me-3" style="backdrop-filter: blur(10px); max-width: 200px;",>
+                            <option>All Status</option>
+                            <option>Pending</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                        </select>
+                        <button class="btn btn-outline-light btn-sm">+ New Application</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admissions List -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- Sample Admission 1 -->
+                    <div class="admission-card">
+                        <div class="d-flex align-items-start">
+                            <div class="admission-avatar">AR</div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="mb-1">Aarav Rajput</h6>
+                                        <div class="small text-muted">B.Tech CSE | Application #AER-2026-001</div>
+                                    </div>
+                                    <span class="badge status-pending px-3 py-2 fs-6">PENDING</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><i class="bi bi-telephone me-1"></i> +91 98765 43210</div>
+                                    <div class="col-md-3"><i class="bi bi-envelope me-1"></i> aarav@email.com</div>
+                                    <div class="col-md-3"><i class="bi bi-geo-alt me-1"></i> Chennai, TN</div>
+                                    <div class="col-md-3"><i class="bi bi-calendar me-1"></i> Applied: 3 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons mt-3">
+                            <a href="#" class="btn btn-approve btn-sm">Approve</a>
+                            <a href="#" class="btn btn-reject btn-sm">Reject</a>
+                            <a href="#" class="btn btn-view btn-sm">View Details</a>
+                        </div>
+                    </div>
+
+                    <!-- Sample Admission 2 -->
+                    <div class="admission-card">
+                        <div class="d-flex align-items-start">
+                            <div class="admission-avatar" style="background: linear-gradient(135deg, #28a745, #20c997);">SM</div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="mb-1">Sneha Mishra</h6>
+                                        <div class="small text-muted">MCA | Application #AER-2026-002</div>
+                                    </div>
+                                    <span class="badge status-approved px-3 py-2 fs-6">APPROVED</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><i class="bi bi-telephone me-1"></i> +91 87654 32109</div>
+                                    <div class="col-md-3"><i class="bi bi-envelope me-1"></i> sneha@email.com</div>
+                                    <div class="col-md-3"><i class="bi bi-geo-alt me-1"></i> Bangalore, KA</div>
+                                    <div class="col-md-3"><i class="bi bi-calendar me-1"></i> Approved: 1 day ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons mt-3">
+                            <a href="#" class="btn btn-outline-light btn-sm">View Fee Status</a>
+                            <a href="#" class="btn btn-outline-light btn-sm">Documents</a>
+                        </div>
+                    </div>
+
+                    <!-- Sample Admission 3 -->
+                    <div class="admission-card">
+                        <div class="d-flex align-items-start">
+                            <div class="admission-avatar" style="background: linear-gradient(135deg, #dc3545, #fd7e14);">VK</div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="mb-1">Vikram Kumar</h6>
+                                        <div class="small text-muted">B.Sc Data Science | Application #AER-2026-003</div>
+                                    </div>
+                                    <span class="badge status-rejected px-3 py-2 fs-6">REJECTED</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3"><i class="bi bi-telephone me-1"></i> +91 76543 21098</div>
+                                    <div class="col-md-3"><i class="bi bi-envelope me-1"></i> vikram@email.com</div>
+                                    <div class="col-md-3"><i class="bi bi-geo-alt me-1"></i> Hyderabad, TS</div>
+                                    <div class="col-md-3"><i class="bi bi-calendar me-1"></i> Rejected: 2 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="action-buttons mt-3">
+                            <a href="#" class="btn btn-outline-light btn-sm">View Reason</a>
+                            <a href="#" class="btn btn-outline-light btn-sm">Re-apply</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

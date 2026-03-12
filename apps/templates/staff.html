@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Portal - Aerovant Academy</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #ffffff;
+        }
+        body{
+    padding-top:80px;
+    font-family: 'Inter', sans-serif;
+}
+        .navbar-brand { font-weight: 800; font-size: 2.7rem; }
+        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%); }
+        .content-section { background: #f8fafc; min-height: 100vh; }
+        .nav-link.active { background: rgba(218, 233, 6, 0); border-radius: 10px; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .download-btn { transition: all 0.3s ease; }
+        .download-btn:hover { transform: scale(1.05); }
+
+        /* SAME FOOTER STYLES AS STUDENT PAGE */
+        .footer-top { padding: 60px 20px 30px; }
+        .footer-title { font-weight: 800; font-size: 32px; }
+        .footer-subtitle { max-width: 700px; margin: 15px auto 30px; color: #555; }
+       .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    margin: 0 10px;
+    border-radius: 50%;
+    background: #fff8f800;
+    color: #ffffff;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgb(255, 244, 244);
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: #0057fa;
+    transform: translateY(-5px);
+}
+        .footer-main { padding: 40px 0; }
+        .footer-main h6, .footer-main h5 { margin-bottom: 15px; }
+        .footer-main ul { list-style: none; padding: 0; }
+        .footer-main ul li { margin-bottom: 8px; }
+        .footer-main ul li a { text-decoration: none; color: #444; transition: 0.3s; }
+        .footer-main ul li a:hover { color: #ffcc00; }
+        /* BOTTOM STRIP */
+.footer-bottom {
+    background: #e9e9e9;
+    padding: 20px 0;
+    font-weight: 500;
+}
+
+.demo-btn {
+    padding: 10px 25px;
+    border: 2px solid #764ba2;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+        .aero-footer {
+    background: rgba(5, 17, 78, 0.93); backdrop-filter: blur(20px);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+
+        @media(max-width:768px){ .footer-title { font-size: 24px; } .footer-bottom { text-align: center; gap: 15px; } }
+
+        /* Mobile sidebar fix */
+        .sidebar.show { transform: translateX(0) !important; }
+        @media (max-width: 991px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1050;
+                width: 280px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+        }
+        /* Responsive */
+@media (max-width: 768px) {
+    .smiley-movers { animation-duration: 30s; } /* Slower on mobile */
+}
+.logo-img {
+    height: 75px;
+    width: auto;
+    max-width: 230px;
+    padding: 10px;
+    opacity: 1.90;                                /* Overall element opacity */
+    border-radius: 16px; 
+   
+}
+
+/* HOVER - Enhanced Opacity Effect */
+.logo-smooth:hover .logo-img {
+    opacity: 4;                                  /* Full opacity on hover */
+       /* Lift animation */
+    
+}
+    </style>
+</head>
+<body>
+    <!-- Staff Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top"
+     style="background: linear-gradient(135deg, var(--primary), #1e40af); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div class="container-fluid">
+        <!-- Brand -->
+       <a class="navbar-brand logo-smooth" href="/staff/">
+                <img src="{% static 'images/logo (3).png' %}" alt="Aerovant Academy" class="logo-img">
+            </a> 
+
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto ">
+                <li class="nav-item">
+                    <a class="nav-link  text-white" href="/staff/">
+                        <i class="fas fa-home me-1 "></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#courses">
+                        <i class="fas fa-book me-1 "></i>Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#students">
+                        <i class="fas fa-users me-1 " ></i>Students
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link  dropdown-toggle text-white" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-clipboard me-1 "></i>Attendance
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item " href="#attendance">
+                                Today's Attendance
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item " href="#reports">
+                                Reports
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Staff Profile Dropdown -->
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if staff.image %}
+                            <img src="{{ staff.image.url }}"
+                                 class="rounded-circle img-fluid me-2"
+                                 style="width:50px;height:50px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'images/male.jpg' %}"
+                                 class="rounded-circle img-fluid me-2"
+                                 style="width:50px;height:50px; object-fit: cover;">
+                        {% endif %}
+                        <span class="d-none d-md-inline">{{ staff.first_name }} Staff</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <div class="dropdown-item-text px-3 py-2">
+                                <small>ID: STAFF{{ staff.staff_id }}</small>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="#profile">
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="/login/">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="d-flex">
+        <!-- Sidebar - STAFF VERSION -->
+        <div class="sidebar text-white p-4 d-none d-lg-block" style="width: 280px;">
+            <div class="text-center mb-5">
+                                    {% if staff.image %}
+                    <img src="{{ staff.image.url }}"
+                    class="rounded-circle img-fluid"
+                    style="width:150px;height:150px;">
+                    {% else %}
+                    <img src="{% static 'images/male.jpg' %}"
+                    class="rounded-circle img-fluid"
+                    style="width:150px;height:150px;">
+                    {% endif %}
+                <h4 class="mt-3 mb-1">{{ staff.first_name }} {{ staff.last_name }}</h4>
+                <p class="text-white-50 mb-0">ID:{{ staff.staff_id }}</p>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link text-white mb-3 p-3 active" href="#profile">
+                    <i class="fas fa-user me-2"></i>Profile
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#courses">
+                    <i class="fas fa-book me-2"></i>My Courses
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#students">
+                    <i class="fas fa-users me-2"></i>Students
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#attendance">
+                    <i class="fas fa-clipboard-check me-2"></i>Attendance
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#announcements">
+                    <i class="fas fa-bullhorn me-2"></i>Announcements
+                </a>
+            </nav>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button class="btn btn-primary d-lg-none mb-3 ms-3 mt-3" type="button" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+
+        <!-- Main Content - STAFF SECTIONS -->
+        <div class="content-section flex-grow-1 p-4">
+            <!-- Staff Profile -->
+            <section id="profile" class="mb-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-user me-2"></i>Staff Profile</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-4">
+                               {% if staff.image %}
+                                <img src="{{ staff.image.url }}"
+                                class="rounded-circle img-fluid"
+                                style="width:150px;height:150px;">
+                                {% else %}
+                                <img src="{% static 'images/male.jpg' %}"
+                                class="rounded-circle img-fluid"
+                                style="width:150px;height:150px;">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Full Name:</label>
+                                        <p class="form-control-plaintext">{{ staff.first_name }} {{ staff.last_name }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Staff ID:</label>
+                                        <p class="form-control-plaintext">{{ staff.staff_id }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Email:</label>
+                                        <p class="form-control-plaintext">{{ staff.email }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Departments:</label>
+
+                                        <p class="form-control-plaintext">
+
+                                            {% for dept in departments %}
+                                                <span class="badge bg-success me-1">{{ dept }}</span>
+                                            {% endfor %}
+
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Total Courses:</label>
+                                        <p class="form-control-plaintext">{{ dept_count }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Students:</label>
+                                        <p class="form-control-plaintext">{{ total_students}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Courses -->
+            <section id="courses" class="mb-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-book me-2"></i>Assigned Courses
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row g-4">
+
+                <!-- Departments -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Departments:</label>
+                    <div class="form-control-plaintext p-3 bg-light rounded">
+                        {% if departments %}
+                            {% for dept in departments %}
+                                {% if dept %}
+                                    <span class="badge bg-success me-2 mb-2">{{ dept }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted small">No departments assigned</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Total Courses -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Total Courses:</label>
+                    <div class="form-control-plaintext p-3 bg-light rounded text-center">
+                        <span class="fw-semibold fs-5 text-success">
+                            {{ dept_count|default:0 }}
+                        </span>
+                        <small class="text-muted d-block mt-1">courses assigned</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- Students & Attendance -->
+            <div class="row g-4 mb-5">
+                <!-- My Students -->
+                <div class="col-lg-6">
+                    <section id="students">
+                        <div class="card shadow-lg border-0 h-100">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-users me-2"></i> My Students
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="mb-3">Student List</h4>
+
+                                <table class="table table-bordered table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Student ID</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Department</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for stu in students %}
+                                        <tr>
+                                            <td>{{ stu.id }}</td>
+                                            <td>{{ stu.stu_id }}</td>
+                                            <td>{{ stu.full_name }}</td>
+                                            <td>{{ stu.email }}</td>
+                                            <td>{{ stu.course }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">No students found</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <p class="mb-0">
+                                    <strong>Total Students:</strong> {{ total_students }}
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Today's Attendance -->
+                <div class="col-lg-6">
+                    <section id="attendance">
+                        <div class="card shadow-lg border-0 h-100">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-clipboard-check me-2"></i> Today's Attendance
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="mb-4">Attendance</h4>
+
+                                <table class="table table-striped table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Student</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for a in attendance %}
+                                        <tr>
+                                            <td>{{ a.student.full_name }}</td>
+                                            <td>{{ a.date }}</td>
+                                            <td>
+                                                <span class="badge
+                                                    {% if a.status == 'Present' %}bg-success{% else %}bg-danger{% endif %}">
+                                                    {{ a.status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">No attendance today</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+<!-- UPLOAD NOTES SECTION -->
+<div class="row">
+    <div class="col-12 mb-5">
+        <section id="upload-notes">
+            <!-- Notes upload success alert -->
+            {% if messages %}
+                {% for message in messages %}
+                    {% if "Notes uploaded" in message|stringformat:"s" %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                    <h4 class="mb-0">
+                        <i class="fas fa-upload me-2"></i>Upload Class Notes
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- UPLOAD FORM (unchanged) -->
+                    <form method="post" enctype="multipart/form-data" class="row g-4" action="{% url 'upload_notes_staff' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="upload_notes_staff">
+
+                        <!-- Course (Department) -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Course <span class="text-danger">*</span></label>
+                            <select class="form-select" name="department" required>
+                                <option value="">Select Department</option>
+                                {% for dept in departments %}
+                                    <option value="{{ dept }}">{{ dept }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Topic -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Subject / Topic <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="topic" placeholder="e.g., Python Functions" required>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">File <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx" required>
+                            <small class="text-muted d-block">PDF, DOC, DOCX (Max 10MB)</small>
+                        </div>
+
+                        <!-- Visibility -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Visibility</label>
+                            <select class="form-select" name="visibility">
+                                <option value="all">All Students</option>
+                                <option value="batch">Current Batch Only</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Description (Optional)</label>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Brief note for students..."></textarea>
+                        </div>
+
+                        <!-- Submit + Reset -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-upload me-2"></i>Upload Notes
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary ms-3">Reset</button>
+                        </div>
+                    </form>
+
+                    <!-- Recent Uploads -->
+                    <hr class="my-4">
+                    <h6 class="text-muted mb-3"><i class="fas fa-clock me-1"></i>Recent Uploads</h6>
+
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Uploaded Notes</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Department</th>
+                                            <th>Topic</th>
+                                            <th>Description</th>
+                                            <th>Visibility</th>
+                                            <th>Uploaded Date</th>
+                                            <th>Download/Preview</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for note in notes %}
+                                            <tr>
+                                                <td>{{ note.id }}</td>
+                                                <td>{{ note.department }}</td>
+                                                <td>{{ note.topic }}</td>
+                                                <td>{{ note.description|truncatewords:8 }}</td>
+                                                <td>
+                                                    {% if note.visibility == 'all' %}
+                                                        <span class="badge bg-success">All Students</span>
+                                                    {% else %}
+                                                        <span class="badge bg-info">Current Batch</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ note.uploaded_at|date:"d M Y H:i" }}</td>
+                                                <td>
+                                                    <a href="{{ note.file.url }}" class="btn btn-sm btn-success" download>
+                                                        <i class="fas fa-download"></i> Download
+                                                    </a>
+                                                    <a href="{{ note.file.url }}"
+                                                    class="btn btn-sm btn-primary" target="_blank">
+                                                        View
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <!-- Edit Button - opens unique modal -->
+                                                    <button class="btn btn-sm btn-warning me-1" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#editNoteModal{{ note.id }}">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </button>
+                                                    
+                                                    <!-- Delete Button -->
+                                                    <a href="{% url 'delete_note' note.id %}" 
+                                                       class="btn btn-sm btn-danger"
+                                                       onclick="return confirm('Are you sure to delete this note?')">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <!-- EDIT MODAL FOR THIS SPECIFIC NOTE (unique ID per note) -->
+                                            <div class="modal fade" id="editNoteModal{{ note.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ note.id }}" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-warning text-dark">
+                                                            <h5 class="modal-title" id="editModalLabel{{ note.id }}">
+                                                                <i class="fas fa-edit me-2"></i>Edit Note #{{ note.id }}
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- EDIT FORM with correct action URL -->
+                                                            <form method="post" enctype="multipart/form-data"
+                                                                class="row g-3"
+                                                                action="{% url 'edit_note' note.id %}">
+
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="update_note_staff" value="{{ note.id }}">
+
+                                                                <!-- Department -->
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Course <span class="text-danger">*</span></label>
+                                                                    <select class="form-select" name="department" required>
+                                                                        <option value="">Select Department</option>
+                                                                        {% for dept in departments %}
+                                                                            <option value="{{ dept }}" {% if note.department == dept %}selected{% endif %}>
+                                                                                {{ dept }}
+                                                                            </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+
+                                                                <!-- Topic -->
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Subject / Topic <span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" name="topic" 
+                                                                           value="{{ note.topic }}" required>
+                                                                </div>
+
+                                                                <!-- File -->
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">File</label>
+                                                                    {% if note.file %}
+                                                                        <div class="alert alert-info mb-2 p-2">
+                                                                            <small><i class="fas fa-file me-1"></i>Current: {{ note.file.name|cut:"/"|last }}</small>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                    <input type="file" class="form-control" name="file" accept=".pdf,.doc,.docx">
+                                                                    <small class="text-muted d-block mt-1">Leave empty to keep current file (Max 10MB)</small>
+                                                                </div>
+
+                                                                <!-- Visibility -->
+                                                                <div class="col-md-6">
+                                                                    <label class="form-label fw-bold">Visibility</label>
+                                                                    <select class="form-select" name="visibility" required>
+                                                                        <option value="all" {% if note.visibility == "all" %}selected{% endif %}>All Students</option>
+                                                                        <option value="batch" {% if note.visibility == "batch" %}selected{% endif %}>Current Batch Only</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <!-- Description -->
+                                                                <div class="col-md-12">
+                                                                    <label class="form-label fw-bold">Description (Optional)</label>
+                                                                    <textarea class="form-control" name="description" rows="3">{{ note.description|default:"" }}</textarea>
+                                                                </div>
+
+                                                                <div class="col-12 mt-3">
+                                                                    <div class="d-flex justify-content-end gap-2">
+                                                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                                            <i class="fas fa-times me-1"></i>Cancel
+                                                                        </button>
+                                                                        <button type="submit" class="btn btn-warning">
+                                                                            <i class="fas fa-save me-2"></i>Update Note
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="8" class="text-center text-muted py-4">
+                                                    <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                                                    <p>No notes uploaded yet. Upload your first note above!</p>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+<!-- UPLOAD SYLLABUS SECTION -->
+<section id="upload-syllabus" class="mb-5">
+    {% if messages %}
+        {% for message in messages %}
+            {% if "Syllabus uploaded" in message|stringformat:"s" or "Syllabus updated" in message|stringformat:"s" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-success text-white" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <h4 class="mb-0">
+                <i class="fas fa-file-upload me-2"></i>Upload Syllabus
+            </h4>
+        </div>
+        <div class="card-body">
+            <!-- UPLOAD FORM (unchanged) -->
+            <form method="POST" enctype="multipart/form-data" action="{% url 'upload_syllabus' %}" class="row g-4">
+                {% csrf_token %}
+                
+                <!-- Course -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Course <span class="text-danger">*</span></label>
+                    <select name="course" class="form-select" required>
+                        <option value="">Select Course</option>
+                        {% for dept in departments %}
+                            <option value="{{ dept }}">{{ dept }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Topic -->
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Topic <span class="text-danger">*</span></label>
+                    <input type="text" name="topic" class="form-control" placeholder="e.g., Theory Syllabus" required>
+                </div>
+
+                <!-- Syllabus File -->
+                <div class="col-md-12">
+                    <label class="form-label fw-bold">Upload File (PDF) <span class="text-danger">*</span></label>
+                    <input type="file" name="syllabus_file" class="form-control" accept=".pdf" required>
+                    <small class="text-muted d-block">Only PDF files allowed (Max 10MB)</small>
+                </div>
+
+                <div class="col-12">
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success btn-lg px-5">
+                            <i class="fas fa-upload me-2"></i>Upload Syllabus
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <hr class="my-4">
+            <h5 class="mt-4 mb-3">
+                <i class="fas fa-list me-2 text-success"></i>Uploaded Syllabus
+            </h5>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Course</th>
+                            <th>Topic</th>
+                            <th>Uploaded Date</th>
+                            <th>Download/Preview</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in syllabus_list %}
+                            <tr>
+                                <td><strong>#{{ s.id }}</strong></td>
+                                <td>
+                                    <span class="badge bg-primary">{{ s.course }}</span>
+                                </td>
+                                <td>{{ s.topic }}</td>
+                                <td>{{ s.created_at|date:"d M Y H:i" }}</td>
+                                <td>
+                                                    <a href="{{ s.syllabus_file.url }}" class="btn btn-sm btn-success" download>
+                                                        <i class="fas fa-download"></i> Download
+                                                    </a>
+                                                    <a href="{{  s.syllabus_file.url }}"
+                                                    class="btn btn-sm btn-primary" target="_blank">
+                                                        View
+                                                    </a>
+                                                </td>
+                                <td>
+                                    <!-- Edit Button - opens unique modal -->
+                                    <button class="btn btn-sm btn-warning me-1" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editSyllabusModal{{ s.id }}" 
+                                            title="Edit Syllabus">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    
+                                    <!-- Delete Button -->
+                                    <a href="{% url 'delete_syllabus' s.id %}" 
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure to delete this syllabus?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <!-- EDIT MODAL FOR THIS SPECIFIC SYLLABUS (unique ID per item) -->
+                            <div class="modal fade" id="editSyllabusModal{{ s.id }}" tabindex="-1" aria-labelledby="editSyllabusLabel{{ s.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-warning text-dark">
+                                            <h5 class="modal-title" id="editSyllabusLabel{{ s.id }}">
+                                                <i class="fas fa-edit me-2"></i>Edit Syllabus #{{ s.id }}
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- EDIT FORM with correct action URL -->
+                                            <form method="post" enctype="multipart/form-data" class="row g-3" action="{% url 'edit_syllabus' s.id %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="update_syllabus" value="{{ s.id }}">
+
+                                                <!-- Course -->
+                                                <div class="col-md-6">
+                                                    <label class="form-label fw-bold">Course <span class="text-danger">*</span></label>
+                                                    <select name="course" class="form-select" required>
+                                                        <option value="">Select Course</option>
+                                                        {% for dept in departments %}
+                                                            <option value="{{ dept }}" {% if s.course == dept %}selected{% endif %}>
+                                                                {{ dept }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+
+                                                <!-- Topic -->
+                                                <div class="col-md-6">
+                                                    <label class="form-label fw-bold">Topic <span class="text-danger">*</span></label>
+                                                    <input type="text" name="topic" class="form-control" 
+                                                           value="{{ s.topic }}" required>
+                                                </div>
+
+                                                <!-- Syllabus File -->
+                                                <div class="col-md-12">
+                                                    <label class="form-label fw-bold">Syllabus File</label>
+                                                    {% if s.syllabus_file %}
+                                                        <div class="alert alert-info mb-2 p-2">
+                                                            <small>
+                                                                <i class="fas fa-file-pdf me-1 text-danger"></i>
+                                                                Current: {{ s.syllabus_file.name|cut:"/"|last }}
+                                                            </small>
+                                                        </div>
+                                                    {% endif %}
+                                                    <input type="file" name="syllabus_file" class="form-control" accept=".pdf">
+                                                    <small class="text-muted d-block mt-1">Leave empty to keep current PDF (Max 10MB)</small>
+                                                </div>
+
+                                                <div class="col-12 mt-3">
+                                                    <div class="d-flex justify-content-end gap-2">
+                                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                            <i class="fas fa-times me-1"></i>Cancel
+                                                        </button>
+                                                        <button type="submit" class="btn btn-warning">
+                                                            <i class="fas fa-save me-2"></i>Update Syllabus
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="fas fa-file-pdf fa-3x mb-3 opacity-50 text-success"></i>
+                                    <p>No syllabus uploaded yet. Upload your first syllabus above!</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+            <!-- Announcements -->
+            <section id="announcements" class="mb-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Announcements</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for ann in announcements %}
+                        <div class="alert alert-info mb-3">
+                            <h6>{{ ann.title }}</h6>
+                            <p class="mb-1">{{ ann.content }}</p>
+                            <small class="text-muted">{{ ann.date|date:"M d, Y" }}</small>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-bullhorn fa-4x text-muted mb-3"></i>
+                            <h5>No new announcements</h5>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- IDENTICAL FOOTER FROM STUDENT PAGE -->
+    <footer class="aero-footer">
+        <div class="footer-top text-center">
+            <h2 class="footer-title">Aerovant Academy – Code, Transform & Succeed</h2>
+            <p class="footer-subtitle text-white">Empowering Tomorrow's Tech Leaders with Cutting-Edge IT Education and Strong Placement Support</p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/aerovant_technologies" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61587139213075" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/in/aerovant-technologies-7a72bb3aa" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://youtube.com/@aerovanttechnologies" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/aerovant_tech" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/AerovantTechnologies" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+        <!-- MAIN FOOTER LINKS -->
+    <div class="footer-main container">
+        <div class="row">
+
+            <!-- Company -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="fw-bold ">Aerovant Academy</h5>
+                <p class="text-justify">AEROVANT ACADEMY
+                P. No. 34, <br>Radha Rayan Radiance, 
+                D. No 1/148/22, Rayakottai Rd, Indl. Estate, 
+                Wahab Nagar, <br>
+                Krishnagiri-635002, Tamil Nadu</p>
+            </div>
+
+            <!-- Explore -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold">Explore</h6>
+                <ul>
+                    <li><a href="#courses" class="text-white">Full Stack Development</a></li>
+                    <li><a href="#courses" class="text-white">Cloud Security</a></li>
+                    <li><a href="#courses" class="text-white">Data Analysis</a></li>
+                    <li><a href="#courses" class="text-white">Artificial Intelligence</a></li>
+                    <li><a href="#courses" class="text-white">Software</a></li>
+                    <li><a href="#contact" class="text-white">Hire From Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Company Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold">Company</h6>
+                <ul>
+                    <li><a href="#about" class="text-white">About Us</a></li>
+                    <li><a href="#contact" class="text-white">Contact Us</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            
+
+<div class="col-lg-3 col-md-6 mb-4">
+    <h6 class="fw-bold">Legal</h6>
+    <ul>
+
+        <li>
+            Terms & Conditions
+            <br>
+
+            <a href="{% static 'pdf/Terms _&_Conditions.pdf' %}" target="_blank" class="text-white">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Terms _&_Conditions.pdf' %}" download class="text-white">
+                Download
+            </a>
+        </li>
+
+        <li>
+            Privacy Policy
+            <br>
+
+            <a href="{% static 'pdf/Privacy_Policy.pdf' %}" target="_blank" class="text-white">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Privacy_Policy.pdf' %}" download class="text-white">
+                Download
+            </a>
+        </li>
+
+        <li>
+            Refund Policy
+            <br>
+
+            <a href="{% static 'pdf/Refund_Policy.pdf.pdf' %}" target="_blank" class="text-white">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Refund_Policy.pdf.pdf' %}" download class="text-white"
+            
+            
+            >
+                Download
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM STRIP -->
+    <div class="footer-bottom">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+
+            <div class="text-black">
+                📞 +91 90426 47714
+            </div>
+
+            <div class="text-black">
+                ✉ humanresource@aerovanttech.com
+
+            </div>
+
+            <a href="#contact" class="demo-btn text-black">Register for Demo</a>
+
+        </div>
+    </div>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // FIXED MOBILE SIDEBAR TOGGLE
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('show');
+            
+            if (sidebar.classList.contains('show')) {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+                    background: rgba(0,0,0,0.5); z-index: 1040;
+                `;
+                overlay.onclick = () => sidebar.classList.remove('show');
+                document.body.appendChild(overlay);
+            }
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                    document.querySelector(`.sidebar .nav-link[href="#${targetId}"]`).classList.add('active');
+                }
+            });
+        });
+
+        if (window.innerWidth < 992) {
+            document.querySelector('.sidebar').classList.add('d-none');
+        }
+
+        window.addEventListener('scroll', () => {
+            const sections = ['profile', 'courses', 'students', 'attendance', 'announcements', 'upload-notes'];
+            const scrollPos = window.scrollY + 100;
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element && element.offsetTop <= scrollPos) {
+                    document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
+                    const navLink = document.querySelector(`.navbar-nav .nav-link[href="#${section}"]`);
+                    if (navLink) navLink.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications · AEROVANT ACADEMY</title>
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0b0c15, #010101 90%);
+            overflow-x: hidden;
+            color: #eef2fb;
+            line-height: 1.5;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 30% 50%, rgba(85, 130, 250, 0.2) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 200, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .navbar {
+            background: rgba(8, 12, 25, 0.7) !important;
+            backdrop-filter: blur(18px) saturate(200%);
+            border-bottom: 1px solid rgba(120, 160, 255, 0.25);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
+            padding: 14px 28px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #ffffff, #b0cbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-right: 2px solid rgba(255,255,255,0.2);
+            padding-right: 24px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(110, 150, 255, 0.5);
+            backdrop-filter: blur(8px);
+            color: #cfdeff;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,30,100,0.3);
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background: rgba(50, 100, 255, 0.2);
+            border-color: #6d9cff;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px #2640ff40;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: rgba(12, 16, 33, 0.6);
+            backdrop-filter: blur(20px) saturate(220%);
+            border-right: 1px solid rgba(72, 120, 255, 0.2);
+            box-shadow: 12px 0 40px -20px #000000cc;
+            padding: 28px 16px;
+        }
+
+        .sidebar h6 {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8ba1d0;
+            margin-bottom: 28px;
+            font-weight: 400;
+            border-bottom: 1px dashed #3d5070;
+            padding-bottom: 14px;
+        }
+
+        .sidebar .nav-link {
+            color: #b2c6ec;
+            padding: 12px 18px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 450;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            backdrop-filter: blur(4px);
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar .nav-link i {
+            font-size: 1.3rem;
+            margin-right: 12px;
+            width: 26px;
+            color: #95b2ff;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(45, 85, 255, 0.2);
+            border-color: rgba(65, 130, 255, 0.5);
+            box-shadow: 0 10px 20px -10px #2f6eff, inset 0 1px 2px #ffffff40;
+            color: white;
+            transform: translateX(8px);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        main { padding: 30px 36px !important; }
+
+        .page-header {
+            font-size: 2.4rem;
+            font-weight: 600;
+            background: linear-gradient(140deg, #ffffff, #b3d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3d80ff, #a0f0ff, transparent);
+            margin-top: 8px;
+            border-radius: 4px;
+        }
+
+        .badge-issued { background: rgba(40, 167, 69, 0.2); border: 1px solid #28a745; color: #d4edda; }
+        .badge-pending { background: rgba(255, 193, 7, 0.2); border: 1px solid #ffc107; color: #fff3cd; }
+        .badge-expired { background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #f8d7da; }
+
+        .cert-card {
+            background: rgba(15, 22, 45, 0.5);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5d9eff, #a0f0ff, #ff6b9d);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -15px rgba(0,0,0,0.6);
+            border-color: rgba(120, 180, 255, 0.4);
+        }
+
+        .cert-preview {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-preview::after {
+            content: 'CERTIFICATE';
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 1px;
+        }
+
+        .cert-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .cert-meta {
+            flex-grow: 1;
+        }
+
+        .cert-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .cert-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .cert-detail {
+            display: flex;
+            align-items: center;
+            color: #b5ceff;
+        }
+
+        .cert-actions .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 12px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .btn-issue { background: rgba(40, 167, 69, 0.2); border: 1px solid #28a745; color: #d4edda; }
+        .btn-revoke { background: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #f8d7da; }
+        .btn-download { background: rgba(0, 123, 255, 0.2); border: 1px solid #007bff; color: #cce7ff; }
+        .btn-verify { background: rgba(255, 193, 7, 0.2); border: 1px solid #ffc107; color: #fff3cd; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-box {
+            background: rgba(12, 22, 45, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #fff, #d6e6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .bulk-actions {
+            background: rgba(12, 22, 45, 0.45);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px;
+            padding: 20px 28px;
+            margin-bottom: 28px;
+        }
+
+        .dropzone {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dropzone:hover, .dropzone.dragover {
+            background: rgba(16, 185, 129, 0.1) !important;
+            border-color: #10b981 !important;
+        }
+
+        .custom-select-black {
+            color: #f5e6e6 !important;
+            background: rgba(20, 25, 40, 0.8);
+        }
+
+        .custom-select-black option {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { min-height: auto; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .cert-header { flex-direction: column; }
+            .cert-preview { margin-right: 0; margin-bottom: 16px; }
+        }
+
+        .text-muted {
+            --bs-text-opacity: 1;
+            color: #b5ceff !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hyper-glass navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid px-0">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-brightness-alt-high-fill me-2" style="color:#5d9eff;"></i> 
+            AEROVANT <span style="font-weight:300; background:none; -webkit-text-fill-color:#b0d0ff;">| ACADEMY</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="text-white-50 d-none d-sm-inline">
+                <i class="bi bi-person-circle me-1" style="font-size:1.4rem; vertical-align: middle;"></i>
+                <span class="fw-light">admin</span>
+            </span>
+            <a href="/logout/" class="logout-btn">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="container-fluid g-0">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <nav class="col-md-2 sidebar d-none d-md-block">
+            <h6><i class="bi bi-grid-fill me-2"></i> NAVIGATION</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link " href="/dashboard/">
+                        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/student_Enroll/">
+                        <i class="bi bi-people-fill"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/staff_register/">
+                        <i class="bi bi-person-plus-fill"></i> Staff Register
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-course/">
+                        <i class="bi bi-journal-bookmark-fill"></i> Courses
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/enquiry-list/">
+                        <i class="bi bi-chat-dots-fill"></i> Enquiries
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admission_details/">
+                        <i class="bi bi-person-plus-fill"></i> Admissions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/certification_details/">
+                        <i class="bi bi-award-fill"></i> <span>Certificates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gallery_upload/">
+                        <i class="bi bi-images"></i> <span>Gallery</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings/">
+                        <i class="bi bi-gear-fill"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="col-md-10 ms-auto">
+            <!-- Page Header -->
+            <h1 class="page-header">Certification Management 
+                <span class="badge bg-transparent border border-success text-success ms-3">
+                    <i class="bi bi-circle-fill text-success me-1" style="font-size: 0.6rem;"></i> 
+                    1,247 CERTIFICATES
+                </span>
+            </h1>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">{{ total_certificates|default:"1,247" }}</div>
+                    <div style="color: #a5c2ff; font-size: 0.9rem;">Total Issued</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value text-success">{{ issued_certificates|default:"1,024" }}</div>
+                    <div style="color: #a5c2ff; font-size: 0.9rem;">Verified</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value text-warning">{{ pending_certificates|default:"156" }}</div>
+                    <div style="color: #a5c2ff; font-size: 0.9rem;">Pending Issuance</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value text-danger">{{ expired_certificates|default:"67" }}</div>
+                    <div style="color: #a5c2ff; font-size: 0.9rem;">Expired</div>
+                </div>
+            </div>
+
+            <!-- Bulk Actions & Search -->
+            <div class="bulk-actions mb-4">
+                <div class="row align-items-center">
+                    <!-- SEARCH BAR + STATUS FILTER -->
+                    <div class="col-md-6 d-flex align-items-center">
+                        <form method="GET" class="d-flex w-100 mb-3">
+                            <div class="input-group w-75">
+                                <span class="input-group-text bg-transparent border-0 text-muted">
+                                    <i class="bi bi-search text-white"></i>
+                                </span>
+                                <input type="text" name="q" value="{{ query|default:'' }}"
+                                       placeholder="Search by name, course, or ID..."
+                                       class="form-control bg-transparent border-light text-white">
+                            </div>
+                            <select name="status" class="form-select custom-select-black bg-transparent border-0 ms-2"
+                                    style="max-width: 180px; backdrop-filter: blur(10px);">
+                                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Status</option>
+                                <option value="issued" {% if status_filter == 'issued' %}selected{% endif %}>Issued</option>
+                                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="expired" {% if status_filter == 'expired' %}selected{% endif %}>Expired</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm ms-2">Search</button>
+                        </form>
+                    </div>
+
+                    <!-- BULK ACTIONS + EXPORT + UPLOAD -->
+                    <div class="col-md-6 text-end d-flex justify-content-end align-items-center">
+                        <button id="bulkActionBtn" class="btn btn-success btn-sm me-2" type="button">
+                            + Bulk Issue
+                        </button>
+                        <a href="{% url 'export_csv' %}"class="btn btn-success btn-sm me-2" onclick="exportToExcel()">
+                            Export to Excel
+                        </a>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadCertModal">
+                            <i class="bi bi-cloud-upload me-1"></i>Upload Certificate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificate Upload Modal -->
+            <div class="modal fade" id="uploadCertModal" tabindex="-1" aria-labelledby="uploadCertModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content bg-dark border-0" style="backdrop-filter: blur(10px);">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title text-white" id="uploadCertModalLabel">
+                                <i class="bi bi-cloud-upload me-2"></i>Upload Certificate
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form id="certUploadForm" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="row">
+                                    <!-- Student ID -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-hash me-1 text-info"></i>Student ID *
+                                        </label>
+                                        <input type="text" class="form-control bg-transparent border-light text-white" 
+                                               name="stu_id" placeholder="STU-2026-001" required>
+                                    </div>
+                                    
+                                    <!-- Student Name -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-person me-1 text-primary"></i>Student Name *
+                                        </label>
+                                        <input type="text" class="form-control bg-transparent border-light text-white" 
+                                               name="student_name" placeholder="John Doe" required>
+                                    </div>
+
+                                    <!-- Certified Course -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-mortarboard-fill me-1 text-success"></i>Certified Course *
+                                        </label>
+                                        <input type="text" class="form-control bg-transparent border-light text-white" 
+                                               name="certified_course" placeholder="Full Stack Web Development" required>
+                                    </div>
+
+                                    <!-- Batch -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-diagram-3 me-1 text-warning"></i>Batch *
+                                        </label>
+                                        <input type="text" class="form-control bg-transparent border-light text-white" 
+                                               name="batch" placeholder="2026-A" required>
+                                    </div>
+
+                                    <!-- Issued Date -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-calendar-check me-1 text-success"></i>Issued Date *
+                                        </label>
+                                        <input type="date" class="form-control bg-transparent border-light text-white" 
+                                               name="issued_date" value="2026-03-04" required>
+                                    </div>
+
+                                    <!-- Certificate File -->
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label text-white fw-semibold">
+                                            <i class="bi bi-file-earmark-pdf me-1 text-danger"></i>Certificate File *
+                                        </label>
+                                        <div class="dropzone bg-dark border border-dashed border-light rounded-3 p-4 text-center" 
+                                             id="certDropzone">
+                                            <i class="bi bi-cloud-upload display-4 mb-3"></i>
+                                            <p class="text-muted mb-2 text-white">Drop certificate file here or click to browse</p>
+                                            <p class="text-muted small mb-0 text-white">Max file size: 5MB (PDF, PNG, JPG)</p>
+                                            <input type="file" class="d-none" name="certificate_file" id="certFileInput" 
+                                                   accept=".pdf,.png,.jpg,.jpeg" required>
+                                        </div>
+                                        <div class="file-preview mt-2" id="filePreview" style="display: none;">
+                                            <div class="d-flex align-items-center p-2 bg-secondary bg-opacity-25 rounded">
+                                                <i class="bi bi-file-earmark-pdf text-danger fs-4 me-2"></i>
+                                                <div class="flex-grow-1">
+                                                    <div class="file-name small fw-bold" id="fileName"></div>
+                                                    <div class="file-size text-muted small" id="fileSize"></div>
+                                                </div>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" id="removeFile">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-0">
+                                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-lg me-1"></i>Upload & Save Certificate
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certification List -->
+            <div class="row">
+                <div class="col-12">
+                    {% for cert in certificates %}
+                    <div class="cert-card">
+                        <!-- Checkbox for bulk selection -->
+                        <div class="form-check mb-2">
+                            <input class="form-check-input select-cert" type="checkbox" value="{{ cert.cert_id }}" id="certCheck{{ cert.cert_id }}">
+                            <label class="form-check-label" for="certCheck{{ cert.cert_id }}">
+                                Select Certificate
+                            </label>
+                        </div>
+                        
+                        <div class="cert-header">
+                            <!-- Preview -->
+                            <div class="cert-preview"></div>
+
+                            <div class="cert-meta">
+                                <h5 class="cert-title">{{ cert.certified_course }}</h5>
+
+                                <div class="d-flex align-items-center mb-3">
+                                    <!-- Status Badge -->
+                                    {% if cert.status == "issued" %}
+                                        <span class="badge badge-issued px-3 py-2 me-3">ISSUED</span>
+                                    {% elif cert.status == "verified" %}
+                                        <span class="badge bg-success px-3 py-2 me-3">VERIFIED</span>
+                                    {% elif cert.status == "pending" %}
+                                        <span class="badge bg-warning px-3 py-2 me-3">PENDING</span>
+                                    {% elif cert.status == "expired" %}
+                                        <span class="badge bg-danger px-3 py-2 me-3">EXPIRED</span>
+                                    {% endif %}
+
+                                    <span class="small text-muted">
+                                        Cert #{{ cert.cert_id }}
+                                    </span>
+                                </div>
+
+                                <div class="cert-details">
+                                    <div class="cert-detail">
+                                        <i class="bi bi-person me-2"></i>
+                                        {{ cert.student_name }}
+                                    </div>
+
+                                    <div class="cert-detail">
+                                        <i class="bi bi-mortarboard me-2"></i>
+                                        Batch {{ cert.batch }}
+                                    </div>
+
+                                    <div class="cert-detail">
+                                        <i class="bi bi-calendar-check me-2"></i>
+                                        Issued: {{ cert.issued_date }}
+                                    </div>
+
+                                    {% if cert.expiry_date %}
+                                    <div class="cert-detail">
+                                        <i class="bi bi-calendar-x me-2"></i>
+                                        Expires: {{ cert.expiry_date }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="cert-actions">
+                            <a href="#" class="btn btn-download" onclick="downloadCert('{{ cert.cert_id }}')">
+                                📥 Download PDF
+                            </a>
+                            <a href="#" class="btn btn-verify" onclick="verifyCert('{{ cert.cert_id }}')">
+                                🔍 Verify
+                            </a>
+                            <a href="#" class="btn btn-revoke" onclick="revokeCert('{{ cert.cert_id }}')">
+                                ❌ Revoke
+                            </a>
+                            <a href="#" class="btn btn-outline-light btn-sm">
+                                View Details →
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-award display-1 mb-3"></i>
+                        <h4>No certificates found</h4>
+                        <p>Start by uploading your first certificate above.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // File upload functionality
+    const fileInput = document.getElementById('certFileInput');
+    const dropzone = document.getElementById('certDropzone');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFileBtn = document.getElementById('removeFile');
+
+    // Click to browse
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    // File input change
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && validateFile(file)) {
+            showFilePreview(file);
+        }
+    });
+
+    // Drag and drop
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('dragover');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && validateFile(file)) {
+            fileInput.files = e.dataTransfer.files;
+            showFilePreview(file);
+        }
+    });
+
+    // Remove file
+    removeFileBtn.addEventListener('click', () => {
+        fileInput.value = '';
+        filePreview.style.display = 'none';
+    });
+
+    function validateFile(file) {
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+        
+        if (file.size > maxSize) {
+            showAlert('File size must be less than 5MB', 'error');
+            return false;
+        }
+        if (!allowedTypes.includes(file.type)) {
+            showAlert('Please upload PDF, PNG, or JPG files only', 'error');
+            return false;
+        }
+        return true;
+    }
+
+    function showFilePreview(file) {
+        fileName.textContent = file.name;
+        fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        filePreview.style.display = 'block';
+    }
+
+    // Form submission with AJAX
+    document.getElementById('certUploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="bi bi-hourglass-split spinner"></i> Uploading...';
+        submitBtn.disabled = true;
+
+        fetch('{% url "upload_certificate" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('✅ ' + data.message, 'success');
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('uploadCertModal')).hide();
+                    location.reload();
+                }, 1500);
+            } else {
+                showAlert('❌ ' + (data.error || 'Upload failed'), 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showAlert('Something went wrong! Please try again.', 'error');
+        })
+        .finally(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+
+    // Bulk actions
+    document.getElementById('bulkActionBtn').addEventListener('click', function() {
+        const selected = Array.from(document.querySelectorAll('.select-cert:checked'))
+                              .map(cb => cb.value);
+
+        if (selected.length === 0) {
+            showAlert('Please select at least one certificate!', 'warning');
+            return;
+        }
+
+        if (confirm(`Are you sure you want to mark ${selected.length} certificate(s) as Issued?`)) {
+            fetch('{% url "bulk_update_certificates" %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cert_ids: selected,
+                    action: 'issued'
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showAlert(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showAlert('Error: ' + data.error, 'error');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showAlert('Bulk action failed!', 'error');
+            });
+        }
+    });
+});
+
+// Utility functions
+function showAlert(message, type = 'info') {
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'warning'} 
+                       position-fixed translate-middle fs-6 shadow-lg`;
+    alert.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    alert.innerHTML = `
+        <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'x-circle' : 'exclamation-triangle'} me-2"></i>
+        ${message}
+    `;
+    document.body.appendChild(alert);
+    
+    setTimeout(() => alert.remove(), 4000);
+}
+
+function downloadCert(certId) {
+    window.open(`/download-certificate/${certId}/`, '_blank');
+}
+
+function verifyCert(certId) {
+    showAlert(`Verifying certificate #${certId}...`, 'info');
+}
+
+function revokeCert(certId) {
+    if (confirm('Are you sure you want to revoke this certificate?')) {
+        showAlert(`Certificate #${certId} revoked successfully!`, 'success');
+    }
+}
+
+function exportToExcel() {
+    showAlert('Exporting certificates to Excel...', 'info');
+    // window.location.href = '/export-certificates/csv/';
+}
+</script>
+
+</body>
+</html>

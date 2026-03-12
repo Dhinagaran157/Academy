@@ -1,0 +1,868 @@
+<!-- Student Home Page with Navbar -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Aerovant Academy</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #ffffff;
+        }
+        .navbar-brand { font-weight: 800; font-size: 1.5rem; }
+        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #031e69 0%, #1e40af 100%); }
+        .content-section { background: #f8fafc; min-height: 100vh; }
+        .nav-link.active { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .download-btn { transition: all 0.3s ease; }
+        .download-btn:hover { transform: scale(1.05); }
+body{
+    padding-top:80px;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* TOP SECTION */
+.footer-top {
+    padding: 60px 20px 30px;
+}
+
+.footer-title {
+    font-weight: 800;
+    font-size: 32px;
+}
+
+.footer-subtitle {
+    max-width: 700px;
+    margin: 15px auto 30px;
+    color: #555;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    margin: 0 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #111;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: #00f7ff;
+    transform: translateY(-5px);
+}
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    margin: 0 10px;
+    border-radius: 50%;
+    background: #fff8f800;
+    color: #fffefe;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgb(255, 244, 244);
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    background: #0057fa;
+    transform: translateY(-5px);
+}
+        /* MAIN LINKS */
+.footer-main {
+    padding: 40px 0;
+}
+
+.footer-main h6,
+.footer-main h5 {
+    margin-bottom: 15px;
+}
+
+.footer-main ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-main ul li {
+    margin-bottom: 8px;
+}
+
+.footer-main ul li a {
+    text-decoration: none;
+    color: #444;
+    transition: 0.3s;
+}
+
+.footer-main ul li a:hover {
+    color: #ffcc00;
+}
+ .aero-footer {
+    background: rgba(5, 17, 78, 0.93); backdrop-filter: blur(20px);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+/* BOTTOM STRIP */
+.footer-bottom {
+    background: #e9e9e9;
+    padding: 20px 0;
+    font-weight: 500;
+}
+
+.demo-btn {
+    padding: 10px 25px;
+    border: 2px solid #764ba2;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #111;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.demo-btn:hover {
+    background: #eef1f5;
+    color: #000;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .footer-title {
+        font-size: 24px;
+    }
+    .footer-bottom {
+        text-align: center;
+        gap: 15px;
+    }
+}
+.sidebar.show {
+    transform: translateX(0) !important;
+}
+@media (max-width: 991px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1050;
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .smiley-movers { animation-duration: 30s; } /* Slower on mobile */
+}
+.logo-img {
+    height: 80px;
+    width: auto;
+    max-width: 230px;
+    padding: 10px;
+    opacity: 1.90;                                /* Overall element opacity */
+    border-radius: 16px; 
+   
+}
+
+/* HOVER - Enhanced Opacity Effect */
+.logo-smooth:hover .logo-img {
+    opacity: 4;                                  /* Full opacity on hover */
+       /* Lift animation */
+    
+}
+
+    </style>
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: linear-gradient(135deg, var(--primary), #1e40af); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="container-fluid">
+            <!-- Brand -->
+             <a class="navbar-brand logo-smooth" href="/student_details/home/">
+                <img src="{% static 'images/logo (3).png' %}" alt="Aerovant Academy" class="logo-img">
+            </a> 
+
+            <!-- Toggle Button for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse text-white" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/student_details/">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#courses">
+                            <i class="fas fa-book me-1"></i>Courses
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="#certificates">
+                            <i class="fas fa-certificate me-1"></i>Certificates
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-file me-1"></i>Downloads
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#notes">Class Notes</a></li>
+                            <li><a class="dropdown-item" href="#syllabus">Syllabus</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                
+               <!-- Student Profile & Actions -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+
+                            <td>{% if student.image %}
+                                    <img src="{{ student.image.url }}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:50px;height:50px;">
+                                    {% else %}
+                                    <img src="{% static 'images/male.jpg' %}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:50px;height:50px;">
+                                    {% endif %}</td>
+                                <td>
+
+                            <span class="d-none d-md-inline text-white">{{ student.full_name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" style="min-width: 280px;">
+                            <li>
+                                <div class="dropdown-item-text px-3 py-2">
+                                    <small>ID: {{ student.stu_id }}</small>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#personal"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            
+                            <!-- NEW: Profile Photo Upload -->
+                            <li class="dropdown-divider"></li>
+                            <li class="px-3 py-2">
+                                <small class="text-muted mb-2 d-block">Update Profile Photo</small>
+                                <form id="profilePhotoForm" enctype="multipart/form-data" class="upload-form">
+                                    {% csrf_token %}
+                                    <div class="input-group input-group-sm">
+                                        <input type="file" class="form-control" name="profile_image" 
+                                            accept="image/*" id="profileImageInput">
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-upload me-1"></i>Upload
+                                        </button>
+                                    </div>
+                                    <div class="progress mt-2" id="uploadProgress" style="display: none;">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </form>
+                            </li>
+                            
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>Help</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout/">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                    
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar text-white p-4 d-none d-lg-block" style="width: 280px;">
+            <div class="text-center mb-5">
+               
+            <!-- Sidebar Profile Image -->
+        <td>{% if student.image %}
+                                    <img src="{{ student.image.url }}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:150px;height:150px;">
+                                    {% else %}
+                                    <img src="{% static 'images/male.jpg' %}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:150px;height:150px;">
+                                    {% endif %}</td>
+                                <td>
+
+                <h4 class="mt-3 mb-1">{{ student.full_name }}</h4>
+                <p class="text-white-50 mb-0">ID: {{ student.stu_id }}</p>
+            </div>
+            
+            <nav class="nav flex-column">
+                <a class="nav-link text-white mb-3 p-3 active" href="#personal">
+                    <i class="fas fa-user me-2"></i>Personal Details
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#courses">
+                    <i class="fas fa-book me-2"></i>My Courses
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#certificates">
+                    <i class="fas fa-certificate me-2"></i>Certificates
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#notes">
+                    <i class="fas fa-file-alt me-2"></i>Class Notes
+                </a>
+                <a class="nav-link text-white mb-3 p-3" href="#syllabus">
+                    <i class="fas fa-file-pdf me-2"></i>Syllabus Download
+                </a>
+            </nav>
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <button class="btn btn-primary d-lg-none mb-3 ms-3 mt-3" type="button" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+
+        <!-- Main Content -->
+        <div class="content-section flex-grow-1 p-4">
+            <!-- Personal Details -->
+            <section id="personal" class="mb-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-user me-2"></i>Personal Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-4">
+                               <!-- Sidebar Profile Image -->
+                    <td>{% if student.image %}
+                                    <img src="{{ student.image.url }}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:150px;height:150px;">
+                                    {% else %}
+                                    <img src="{% static 'images/male.jpg' %}"
+                                    class="rounded-circle img-fluid"
+                                    style="width:150px;height:150px;">
+                                    {% endif %}</td>
+                                <td>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Full Name:</label>
+                                        <p class="form-control-plaintext">{{ student.full_name }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Student ID:</label>
+                                        <p class="form-control-plaintext">{{ student.stu_id }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Email:</label>
+                                        <p class="form-control-plaintext">{{ student.email }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Phone:</label>
+                                        <p class="form-control-plaintext">{{ student.phone }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Course:</label>
+                                        <p class="form-control-plaintext">{{ student.course }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Batch:</label>
+                                        <p class="form-control-plaintext">{{ student.graduation_year}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Courses -->
+            <section id="courses" class="mb-5">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-success text-white text-center">
+                        <h4 class="mb-0">
+                            <i class="fas fa-book me-2"></i>My Courses
+                        </h4>
+                    </div>
+
+                    <div class="card-body text-center">
+                        <div class="col-12">
+                            <h2 class="fw-bold">
+                                {{ student.course }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certificates -->
+            <section id="certificates" class="mb-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">
+                <i class="fas fa-certificate me-2"></i>My Certificates
+            </h4>
+        </div>
+
+        <div class="card-body">
+            <div class="row g-4">
+
+                {% if certificates %}
+                    {% for cert in certificates %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card card-hover border-0 h-100 text-center p-4">
+                            <i class="fas fa-award fa-4x text-warning mb-3"></i>
+
+                            <h5 class="fw-bold mb-2">
+                                {{ cert.certified_course }}
+                            </h5>
+
+                            <p class="text-muted mb-2">
+                                Issued: {{ cert.issued_date }}
+                            </p>
+
+                            {% if cert.expiry_date %}
+                            <p class="text-muted">
+                                Expiry: {{ cert.expiry_date }}
+                            </p>
+                            {% endif %}
+
+                            <a href="{{ cert.certificate_file.url }}" 
+                               class="btn btn-success mt-2" download>
+                                <i class="fas fa-download me-2"></i>
+                                Download Certificate
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-certificate fa-4x text-muted mb-3"></i>
+                        <h5>No certificates earned yet!</h5>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+            <!-- Class Notes & Syllabus -->
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <section id="notes">
+                        <div class="card shadow-lg border-0 h-100">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Class Notes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    {% for note in notes %}
+                                    <a href="{{ note.file.url }}" class="list-group-item list-group-item-action download-btn p-3" download>
+                                        <div class="d-flex w-100 justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                                                <strong>{{ note.title }}</strong>
+                                                <br><small class="text-muted">{{ note.topic }} - {{ note.uploaded_at|date:"d M Y" }}</small>
+                                            </div>
+                                            <i class="fas fa-download fa-lg text-success"></i>
+                                        </div>
+                                    </a>
+                                    {% empty %}
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">No class notes available</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-lg-6">
+                    <section id="syllabus">
+                        <div class="card shadow-lg border-0 h-100">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="fas fa-file-pdf me-2"></i>Syllabus Download</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    {% for syllabus in syllabus_details %}
+                                    <a href="{{ syllabus.syllabus_file.url }}" class="list-group-item list-group-item-action download-btn p-3" download>
+                                        <div class="d-flex w-100 justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-pdf text-danger me-2"></i>
+                                                <strong>{{ syllabus.course }}</strong>
+                                               <br><small class="text-muted">course: {{ syllabus.course}}</small>
+                                                <br><small class="text-muted">Note: {{ syllabus.topic}}</small>
+                                                <br><small class="text-muted">course: {{ syllabus.created_at}}</small>
+                                            </div>
+                                            <i class="fas fa-download fa-lg text-success"></i>
+                                        </div>
+                                    </a>
+                                    {% empty %}
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-file-pdf fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">No syllabus files available</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- ========== FOOTER ========== -->
+  <footer class="aero-footer" >
+
+    <!-- TOP BRAND SECTION -->
+    <div class="footer-top text-center">
+        <h2 class="footer-title">Aerovant Academy – Code Transform & Succeed</h2>
+        <p class="footer-subtitle text-white">
+            Empowering Tomorrow’s Tech Leaders with Cutting-Edge IT Education and Strong Placement Support
+        </p>
+
+        <div class="social-icons">
+                <a href="https://www.instagram.com/aerovant_technologies" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61587139213075" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/in/aerovant-technologies-7a72bb3aa" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://youtube.com/@aerovanttechnologies" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://x.com/aerovant_tech" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/AerovantTechnologies" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+    </div>
+
+   <!-- MAIN FOOTER LINKS -->
+    <div class="footer-main container">
+        <div class="row">
+
+            <!-- Company -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="fw-bold ">Aerovant Academy</h5>
+                <p class="text-justify">AEROVANT ACADEMY
+                P. No. 34, <br>Radha Rayan Radiance, 
+                D. No 1/148/22, Rayakottai Rd, Indl. Estate, 
+                Wahab Nagar, <br>
+                Krishnagiri-635002, Tamil Nadu</p>
+            </div>
+
+            <!-- Explore -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold">Explore</h6>
+                <ul>
+                    <li><a href="#courses">Full Stack Development</a></li>
+                    <li><a href="#courses">Cloud Security</a></li>
+                    <li><a href="#courses">Data Analysis</a></li>
+                    <li><a href="#courses">Artificial Intelligence</a></li>
+                    <li><a href="#courses">Software</a></li>
+                    <li><a href="http://aerovanttech.com/" target="_blank" >Aerovant Technologies</a></li>
+                </ul>
+            </div>
+
+            <!-- Company Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="fw-bold">Company</h6>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            
+
+<div class="col-lg-3 col-md-6 mb-4">
+    <h6 class="fw-bold">Legal</h6>
+    <ul>
+
+        <li>
+            Terms & Conditions
+            <br>
+
+            <a href="{% static 'pdf/Terms _&_Conditions.pdf' %}" target="_blank">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Terms _&_Conditions.pdf' %}" download>
+                Download
+            </a>
+        </li>
+
+        <li>
+            Privacy Policy
+            <br>
+
+            <a href="{% static 'pdf/Privacy_Policy.pdf' %}" target="_blank">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Privacy_Policy.pdf' %}" download>
+                Download
+            </a>
+        </li>
+
+        <li>
+            Refund Policy
+            <br>
+
+            <a href="{% static 'pdf/Refund_Policy.pdf.pdf' %}" target="_blank">
+                Open
+            </a>
+
+            |
+
+            <a href="{% static 'pdf/Refund_Policy.pdf.pdf' %}" download>
+                Download
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM STRIP -->
+    <div class="footer-bottom">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+
+            <div class="text-black">
+                📞 +91 90426 47714
+            </div>
+
+            <div class="text-black">
+                ✉ humanresource@aerovanttech.com
+
+            </div>
+
+            <a href="#contact" class="demo-btn text-black">Register for Demo</a>
+
+        </div>
+    </div>
+
+
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('d-none');
+        }
+
+        // Smooth scrolling for navbar and sidebar links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Update sidebar active state
+                    document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                    document.querySelector(`.sidebar .nav-link[href="#${targetId}"]`).classList.add('active');
+                }
+            });
+        });
+
+        // Auto-hide sidebar on mobile
+        if (window.innerWidth < 992) {
+            document.querySelector('.sidebar').classList.add('d-none');
+        }
+
+        // Navbar active state management
+        window.addEventListener('scroll', () => {
+            const sections = ['personal', 'courses', 'certificates', 'notes', 'syllabus'];
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                if (document.getElementById(section).offsetTop <= scrollPos) {
+                    document.querySelectorAll('.navbar-nav .nav-link').forEach(l => l.classList.remove('active'));
+                    document.querySelector(`.navbar-nav .nav-link[href="#${section}"]`)?.classList.add('active');
+                }
+            });
+        });
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('show');
+    
+    // Overlay for mobile
+    if (sidebar.classList.contains('show')) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: rgba(0,0,0,0.5); z-index: 1040;
+        `;
+        overlay.onclick = () => sidebar.classList.remove('show');
+        document.body.appendChild(overlay);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile image preview
+    const fileInput = document.getElementById('profileImageInput');
+    const navbarImg = document.getElementById('navbarProfileImg');
+    const sidebarImg = document.getElementById('sidebarProfileImg');
+    const uploadForm = document.getElementById('profilePhotoForm');
+    const progressBar = document.getElementById('uploadProgress');
+    const progress = progressBar.querySelector('.progress-bar');
+
+    // Live preview on file select
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                navbarImg.src = e.target.result;
+                sidebarImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Upload form submission
+    uploadForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('profile_image', fileInput.files[0]);
+        formData.append('stu_id', '{{ student.id|default:"STU001" }}');  // Pass student ID
+        
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show progress
+        progressBar.style.display = 'block';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Uploading...';
+        submitBtn.disabled = true;
+        
+        try {
+            const response = await fetch('/student/upload-profile-photo/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Success - images already updated via preview
+                showToast('Profile photo updated successfully! ✅', 'success');
+                
+                // Hide progress and reset form
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                    uploadForm.reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 1500);
+            } else {
+                throw new Error(data.error || 'Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            showToast('Upload failed: ' + error.message, 'error');
+            
+            // Revert preview on error
+            navbarImg.src = "{% if student.profile_image %}{{ student.profile_image.url }}{% else %}{% static 'images/AI3.jpg' %}{% endif %}";
+            sidebarImg.src = navbarImg.src;
+        } finally {
+            progressBar.style.display = 'none';
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // CSRF Token Helper
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Toast notifications
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 9999; 
+            padding: 15px 20px; border-radius: 8px; color: white; 
+            font-weight: 500; min-width: 300px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        `;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
+    // Existing sidebar toggle and smooth scroll code...
+    window.toggleSidebar = function() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.classList.toggle('show');
+        
+        if (sidebar.classList.contains('show')) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+                background: rgba(0,0,0,0.5); z-index: 1040;
+            `;
+            overlay.onclick = () => sidebar.classList.remove('show');
+            document.body.appendChild(overlay);
+        }
+    };
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+                document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelector(`.sidebar .nav-link[href="#${targetId}"]`).classList.add('active');
+            }
+        });
+    });
+});
+
+
+    </script>
+</body>
+</html>

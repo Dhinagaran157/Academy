@@ -1,0 +1,508 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aerovant · Enquiry List</title>
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Chart.js (not used but keeping consistency) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0b0c15, #010101 90%);
+            overflow-x: hidden;
+            color: #eef2fb;
+            line-height: 1.5;
+            backdrop-filter: blur(2px);
+        }
+
+        /* smooth animated gradient orb */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 30% 50%, rgba(85, 130, 250, 0.2) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 200, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* ========== futuristic glass navbar ========= */
+        .navbar {
+            background: rgba(8, 12, 25, 0.7) !important;
+            backdrop-filter: blur(18px) saturate(200%);
+            border-bottom: 1px solid rgba(120, 160, 255, 0.25);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
+            padding: 14px 28px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #ffffff, #b0cbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-right: 2px solid rgba(255,255,255,0.2);
+            padding-right: 24px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(110, 150, 255, 0.5);
+            backdrop-filter: blur(8px);
+            color: #cfdeff;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,30,100,0.3);
+        }
+
+        .logout-btn:hover {
+            background: rgba(50, 100, 255, 0.2);
+            border-color: #6d9cff;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px #2640ff40;
+        }
+
+        /* ========== SIDEBAR — ultra‑glass ========= */
+        .sidebar {
+            min-height: 100vh;
+            background: rgba(12, 16, 33, 0.6);
+            backdrop-filter: blur(20px) saturate(220%);
+            border-right: 1px solid rgba(72, 120, 255, 0.2);
+            box-shadow: 12px 0 40px -20px #000000cc;
+            padding: 28px 16px;
+        }
+
+        .sidebar h6 {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8ba1d0;
+            margin-bottom: 28px;
+            font-weight: 400;
+            border-bottom: 1px dashed #3d5070;
+            padding-bottom: 14px;
+        }
+
+        .sidebar .nav-link {
+            color: #b2c6ec;
+            background: transparent;
+            padding: 12px 18px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 450;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar .nav-link i {
+            font-size: 1.3rem;
+            vertical-align: middle;
+            margin-right: 12px;
+            width: 26px;
+            color: #95b2ff;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(45, 85, 255, 0.2);
+            border-color: rgba(65, 130, 255, 0.5);
+            box-shadow: 0 10px 20px -10px #2f6eff, inset 0 1px 2px #ffffff40;
+            color: white;
+            transform: translateX(8px);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        .sidebar hr {
+            background: linear-gradient(90deg, transparent, #5f7eb0, transparent);
+            height: 2px;
+            border: 0;
+            opacity: 0.4;
+            margin: 22px 0;
+        }
+
+        /* ========== main content ========= */
+        main {
+            padding: 30px 36px !important;
+        }
+
+        h3, h5 {
+            font-weight: 600;
+            font-size: 2.4rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(140deg, #ffffff, #b3d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        h5 { font-size: 1.8rem; }
+
+        h3::after, h5::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3d80ff, #a0f0ff, transparent);
+            margin-top: 8px;
+            border-radius: 4px;
+        }
+
+        /* ========== ENQUIRY TABLE PANEL ========= */
+        .enquiry-panel {
+            background: rgba(12, 22, 45, 0.45);
+            backdrop-filter: blur(20px) saturate(250%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 38px;
+            padding: 36px;
+            box-shadow: 0 30px 50px -30px #000, inset 0 1px 1px rgba(255,255,255,0.1);
+            height: 100%;
+        }
+
+        .enquiry-panel h6 {
+            color: #c7dcff;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            border-left: 4px solid #5b8cff;
+            padding-left: 18px;
+        }
+
+        /* Filter buttons */
+        .filter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(110, 150, 255, 0.5);
+            backdrop-filter: blur(8px);
+            color: #cfdeff;
+            border-radius: 40px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,30,100,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .filter-btn:hover {
+            background: rgba(50, 100, 255, 0.2);
+            border-color: #6d9cff;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px #2640ff40;
+        }
+
+        .filter-btn.active {
+            background: rgba(45, 85, 255, 0.3);
+            border-color: rgba(65, 130, 255, 0.8);
+            color: white;
+        }
+
+        /* Custom table */
+        .enquiry-table {
+            background: rgba(15, 22, 45, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .enquiry-table thead th {
+            background: linear-gradient(145deg, rgba(45,85,255,0.8), rgba(102,16,242,0.8)) !important;
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            padding: 20px 16px;
+        }
+
+        .enquiry-table tbody td {
+            padding: 20px 16px;
+            border-color: rgba(255,255,255,0.08);
+            color: #b2c6ec;
+            vertical-align: middle;
+            font-weight: 400;
+        }
+
+        .enquiry-table tbody tr {
+            transition: all 0.25s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .enquiry-table tbody tr:hover {
+            background: rgba(45, 85, 255, 0.15);
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(45,85,255,0.2);
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+        }
+
+        .status-pending {
+            background: rgba(255,193,7,0.2);
+            border: 1px solid rgba(255,193,7,0.5);
+            color: #ffeaa7;
+        }
+
+        .status-replied {
+            background: rgba(40,167,69,0.2);
+            border: 1px solid rgba(40,167,69,0.5);
+            color: #a8e6cf;
+        }
+
+        /* Action buttons */
+        .action-btn {
+            border-radius: 25px;
+            padding: 8px 18px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: none;
+            margin-right: 8px;
+            margin-bottom: 4px;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .action-btn-success {
+            background: rgba(40,167,69,0.3);
+            border: 1px solid rgba(40,167,69,0.6);
+            color: #a8e6cf;
+        }
+
+        .action-btn-primary {
+            background: rgba(13,110,253,0.3);
+            border: 1px solid rgba(13,110,253,0.6);
+            color: #b3d0ff;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8ba1d0;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e1a; }
+        ::-webkit-scrollbar-thumb { background: #2c4880; border-radius: 20px; }
+
+        @media (max-width: 768px) {
+            .sidebar { min-height: auto; }
+            main { padding: 20px !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HYPER‑GLASS NAVBAR ========== -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid px-0">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-brightness-alt-high-fill me-2" style="color:#5d9eff;"></i> AEROVANT <span style="font-weight:300; background:none; -webkit-text-fill-color:#b0d0ff;">| ACADEMY</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="text-white-50 d-none d-sm-inline">
+                <i class="bi bi-person-circle me-1" style="font-size:1.4rem; vertical-align: middle;"></i>
+                <span class="fw-light">{{ request.user.username|default:"admin" }}</span>
+            </span>
+            <a href="/logout/" class="logout-btn">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MAIN LAYOUT ========== -->
+<div class="container-fluid g-0">
+    <div class="row g-0">
+
+        <!-- SIDEBAR (elevated) -->
+               <nav class="col-md-2 sidebar d-none d-md-block">
+            <h6><i class="bi bi-grid-fill me-2"></i> NAVIGATION</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link " href="/dashboard/">
+                        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/student_Enroll/">
+                        <i class="bi bi-people-fill"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/staff_register/">
+                        <i class="bi bi-person-plus-fill"></i> Staff Register
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-course/">
+                        <i class="bi bi-journal-bookmark-fill"></i> Courses
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link active" href="/enquiry-list/">
+                        <i class="bi bi-chat-dots-fill"></i> Enquiries
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admission_details/">
+                        <i class="bi bi-person-plus-fill"></i> Admissions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/certification_details/">
+                        <i class="bi bi-award-fill"></i> <span>Certificates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gallery_upload/">
+                        <i class="bi bi-images"></i> <span>Gallery</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings/">
+                        <i class="bi bi-gear-fill"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- MAIN PANEL (col-md-10) -->
+        <main class="col-md-10 ms-auto">
+            
+            <!-- dynamic headline -->
+            <h5>Enquiry Management</h5>
+
+            <!-- ========== ENQUIRY TABLE PANEL ========== -->
+            <div class="enquiry-panel">
+                
+                <!-- Filter Buttons -->
+                <div class="filter-grid">
+                    <a href="#" class="filter-btn">All</a>
+                    <a href="?status=Pending" class="filter-btn">Pending</a>
+                    <a href="?status=Replied" class="filter-btn">Replied</a>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table enquiry-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Course</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for enquiry in data %}
+                            <tr>
+                                <td><strong>#{{ enquiry.id }}</strong></td>
+                                <td>{{ enquiry.full_name }}</td>
+                                <td><small class="text-muted">{{ enquiry.email }}</small></td>
+                                <td>{{ enquiry.phone }}</td>
+                                <td>{{ enquiry.course }}</td>
+                                <td class="text-truncate" style="max-width: 200px;">{{ enquiry.message }}</td>
+                                <td><small>{{ enquiry.created_at|date:"d M Y" }}</small></td>
+                                <td>
+                                    {% if enquiry.status == "Pending" %}
+                                        <span class="status-badge status-pending">Pending</span>
+                                    {% else %}
+                                        <span class="status-badge status-replied">Replied</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if enquiry.status == "Pending" %}
+                                    <a href="{% url 'mark_replied' enquiry.id %}" class="action-btn action-btn-success">
+                                        <i class="bi bi-reply me-1"></i>Reply
+                                    </a>
+                                    {% endif %}
+                                    {% if enquiry.cv %}
+                                    <a href="{{ enquiry.cv.url }}" class="action-btn action-btn-primary" download>
+                                        <i class="bi bi-download me-1"></i>CV
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9" class="empty-state">
+                                    <i class="bi bi-inbox" style="font-size: 4rem; opacity: 0.4; display: block; margin-bottom: 16px;"></i>
+                                    <h6>No enquiries found</h6>
+                                    <p class="mb-0">Enquiries will appear here when received.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

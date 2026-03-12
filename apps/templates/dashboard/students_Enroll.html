@@ -1,0 +1,555 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aerovant · Student Management</title>
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Your existing styles remain exactly the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0b0c15, #010101 90%);
+            overflow-x: hidden;
+            color: #eef2fb;
+            line-height: 1.5;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ... all your existing CSS styles ... (keeping them exactly as they are) */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 30% 50%, rgba(85, 130, 250, 0.2) 0%, transparent 45%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 255, 200, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .navbar {
+            background: rgba(8, 12, 25, 0.7) !important;
+            backdrop-filter: blur(18px) saturate(200%);
+            border-bottom: 1px solid rgba(120, 160, 255, 0.25);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
+            padding: 14px 28px;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #ffffff, #b0cbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-right: 2px solid rgba(255,255,255,0.2);
+            padding-right: 24px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(110, 150, 255, 0.5);
+            backdrop-filter: blur(8px);
+            color: #cfdeff;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,30,100,0.3);
+        }
+
+        .logout-btn:hover {
+            background: rgba(50, 100, 255, 0.2);
+            border-color: #6d9cff;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px #2640ff40;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: rgba(12, 16, 33, 0.6);
+            backdrop-filter: blur(20px) saturate(220%);
+            border-right: 1px solid rgba(72, 120, 255, 0.2);
+            box-shadow: 12px 0 40px -20px #000000cc;
+            padding: 28px 16px;
+        }
+
+        .sidebar h6 {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8ba1d0;
+            margin-bottom: 28px;
+            font-weight: 400;
+            border-bottom: 1px dashed #3d5070;
+            padding-bottom: 14px;
+        }
+
+        .sidebar .nav-link {
+            color: #b2c6ec;
+            background: transparent;
+            padding: 12px 18px;
+            margin: 6px 0;
+            border-radius: 16px;
+            font-weight: 450;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar .nav-link i {
+            font-size: 1.3rem;
+            vertical-align: middle;
+            margin-right: 12px;
+            width: 26px;
+            color: #95b2ff;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(45, 85, 255, 0.2);
+            border-color: rgba(65, 130, 255, 0.5);
+            box-shadow: 0 10px 20px -10px #2f6eff, inset 0 1px 2px #ffffff40;
+            color: white;
+            transform: translateX(8px);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        .sidebar hr {
+            background: linear-gradient(90deg, transparent, #5f7eb0, transparent);
+            height: 2px;
+            border: 0;
+            opacity: 0.4;
+            margin: 22px 0;
+        }
+
+        main {
+            padding: 30px 36px !important;
+        }
+
+        h3, h5 {
+            font-weight: 600;
+            font-size: 2.4rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(140deg, #ffffff, #b3d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        h5 { font-size: 1.8rem; }
+
+        h3::after, h5::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3d80ff, #a0f0ff, transparent);
+            margin-top: 8px;
+            border-radius: 4px;
+        }
+
+        .student-panel {
+            background: rgba(12, 22, 45, 0.45);
+            backdrop-filter: blur(20px) saturate(250%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 38px;
+            padding: 36px;
+            box-shadow: 0 30px 50px -30px #000, inset 0 1px 1px rgba(255,255,255,0.1);
+            height: 100%;
+        }
+
+        .student-panel h6 {
+            color: #c7dcff;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            border-left: 4px solid #5b8cff;
+            padding-left: 18px;
+        }
+
+        .student-table {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            color:black;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .student-table thead th {
+            background: linear-gradient(145deg, rgba(45,85,255,0.8), rgba(102,16,242,0.8)) !important;
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            padding: 20px 16px;
+        }
+
+        .student-table tbody td {
+            padding: 24px 16px;
+            border-color: rgb(255, 255, 255);
+            color: #000000;
+            vertical-align: middle;
+            font-weight: 400;
+        }
+
+        .student-table tbody tr {
+            transition: all 0.25s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .student-table tbody tr:hover {
+            background: rgba(45, 85, 255, 0.15);
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(45,85,255,0.2);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e1a; }
+        ::-webkit-scrollbar-thumb { background: #2c4880; border-radius: 20px; }
+
+        @media (max-width: 768px) {
+            .sidebar { min-height: auto; }
+            main { padding: 20px !important; }
+            .student-panel { padding: 24px; }
+        }
+
+        /* Form control white background */
+        .form-control {
+            background-color: #ffffff !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== HYPER‑GLASS NAVBAR ========== -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid px-0">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-brightness-alt-high-fill me-2" style="color:#5d9eff;"></i> AEROVANT <span style="font-weight:300; background:none; -webkit-text-fill-color:#b0d0ff;">| ACADEMY</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="text-white-50 d-none d-sm-inline">
+                <i class="bi bi-person-circle me-1" style="font-size:1.4rem; vertical-align: middle;"></i>
+                <span class="fw-light">{{ request.user.username|default:"admin" }}</span>
+            </span>
+            <a href="/logout/" class="logout-btn">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MAIN LAYOUT ========== -->
+<div class="container-fluid g-0">
+    <div class="row g-0">
+        <!-- SIDEBAR (elevated) -->
+        <nav class="col-md-2 sidebar d-none d-md-block">
+            <h6><i class="bi bi-grid-fill me-2"></i> NAVIGATION</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard/">
+                        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/student_Enroll/">
+                        <i class="bi bi-people-fill"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff_register/">
+                        <i class="bi bi-person-plus-fill"></i> Staff Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-course/">
+                        <i class="bi bi-journal-bookmark-fill"></i> Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/enquiry-list/">
+                        <i class="bi bi-chat-dots-fill"></i> Enquiries
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admission_details/">
+                        <i class="bi bi-person-plus-fill"></i> Admissions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/certification_details/">
+                        <i class="bi bi-award-fill"></i> <span>Certificates</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/gallery_upload/">
+                        <i class="bi bi-images"></i> <span>Gallery</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings/">
+                        <i class="bi bi-gear-fill"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- MAIN PANEL -->
+        <main class="col-md-10 ms-auto">
+            <h5>Student Enrollment Overview</h5>
+
+            <div class="student-panel">
+                <div class="panel-header mb-4 d-flex justify-content-between">
+                    <span>
+                        <i class="bi bi-people-fill me-2 text-primary"></i>
+                        Student Details
+                    </span>
+                    <a href="{% url 'export_students' %}" class="btn btn-success btn-sm">
+                        Export to Excel
+                    </a>
+                </div>
+
+                <!-- 🔍 SEARCH BAR -->
+                <form method="GET" class="mb-3">
+                    <input type="text" name="q" value="{{ query }}"
+                           placeholder="Search by name..."
+                           class="form-control w-25 d-inline">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Search
+                    </button>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped student-table">
+                        <thead class="table-dark text-black">
+                            <tr>
+                                <th>ID</th>
+                                <th>Student ID</th>
+                                <th>Full Name</th>
+                                <th>Phone</th>
+                                <th>WhatsApp</th>
+                                <th>Email</th>
+                                <th>Mode</th>
+                                <th>Year</th>
+                                <th>Course</th>
+                                <th>Created</th>
+                                <th>Credentials</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-black">
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ student.id }}</td>
+                                <td>{{ student.stu_id }}</td>
+                                <td>{{ student.full_name }}</td>
+                                <td>{{ student.phone }}</td>
+                                <td>{{ student.whatsapp }}</td>
+                                <td>{{ student.email }}</td>
+                                <td>
+                                    {% if student.mode == "online" %}
+                                        <span class="badge bg-success">Online</span>
+                                    {% elif student.mode == "offline" %}
+                                        <span class="badge bg-primary">Offline</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">Hybrid</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ student.graduation_year }}</td>
+                                <td>{{ student.course }}</td>
+                                <td>{{ student.created_at|date:"d-m-Y" }}</td>
+                                <td>
+                                    {% if not student.credentials_sent %}
+                                    <form method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="student_id" value="{{ student.id }}">
+                                        <button type="submit" name="send_credentials"
+                                                class="btn btn-primary btn-sm">
+                                            <i class="bi bi-envelope"></i> Send Credentials
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <button class="btn btn-success btn-sm" disabled>
+                                        <i class="bi bi-check-circle"></i> Sent
+                                    </button>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <!-- ✅ FIXED: Changed to button with data attributes -->
+                                    <button class="btn btn-warning btn-sm edit-student-btn"
+                                            data-id="{{ student.id }}"
+                                            data-fullname="{{ student.full_name|escapejs }}"
+                                            data-phone="{{ student.phone|escapejs }}"
+                                            data-whatsapp="{{ student.whatsapp|escapejs }}"
+                                            data-email="{{ student.email|escapejs }}"
+                                            data-mode="{{ student.mode|escapejs }}"
+                                            data-year="{{ student.graduation_year|escapejs }}"
+                                            data-course="{{ student.course|escapejs }}">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <a href="{% url 'student_delete' student.id %}"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Are you sure?')">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="12" class="text-center text-muted">
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 📄 PAGINATION -->
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if students.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ students.previous_page_number }}&q={{ query }}">
+                                    Previous
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Page {{ students.number }} of {{ students.paginator.num_pages }}
+                            </span>
+                        </li>
+                        {% if students.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ students.next_page_number }}&q={{ query }}">
+                                    Next
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ✅ EDIT STUDENT MODAL (Styled for your theme) -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background: rgba(12, 22, 45, 0.95); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px);">
+            <div class="modal-header" style="background: linear-gradient(145deg, #f4b400, #ff8c00); color: white; border-bottom: none;">
+                <h5 class="modal-title" id="editStudentModalLabel">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Student
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="" id="editStudentForm">
+                {% csrf_token %}
+                <input type="hidden" name="student_id" id="edit_student_id">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" name="full_name" id="edit_full_name" class="form-control" required placeholder="Full Name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="phone" id="edit_phone" class="form-control" placeholder="Phone">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="whatsapp" id="edit_whatsapp" class="form-control" placeholder="WhatsApp">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="email" name="email" id="edit_email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <select name="mode" id="edit_mode" class="form-control">
+                                <option value="online">Online</option>
+                                <option value="offline">Offline</option>
+                                <option value="hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="graduation_year" id="edit_graduation_year" class="form-control" placeholder="Graduation Year">
+                        </div>
+                        <div class="col-12">
+                            <input type="text" name="course" id="edit_course" class="form-control" placeholder="Course">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top" style="background: rgba(255,255,255,0.05);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle me-1"></i>Update Student
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ✅ FIXED: Modal population script
+    const editButtons = document.querySelectorAll('.edit-student-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Populate form fields
+            document.getElementById('edit_student_id').value = this.dataset.id;
+            document.getElementById('edit_full_name').value = this.dataset.fullname || '';
+            document.getElementById('edit_phone').value = this.dataset.phone || '';
+            document.getElementById('edit_whatsapp').value = this.dataset.whatsapp || '';
+            document.getElementById('edit_email').value = this.dataset.email || '';
+            document.getElementById('edit_mode').value = this.dataset.mode || 'online';
+            document.getElementById('edit_graduation_year').value = this.dataset.year || '';
+            document.getElementById('edit_course').value = this.dataset.course || '';
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('editStudentModal'));
+            modal.show();
+        });
+    });
+
+    // Optional: Reset form when modal closes
+    document.getElementById('editStudentModal').addEventListener('hidden.bs.modal', function() {
+        document.getElementById('editStudentForm').reset();
+    });
+});
+</script>
+
+</body>
+</html>

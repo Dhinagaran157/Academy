@@ -1,0 +1,223 @@
+<!-- COURSE DETAILS MODALS (Updated with consistent styling) -->
+
+<!-- Python Full Stack Modal -->
+<div id="pythonModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-badge">Curriculum Details</span>
+            <h2 class=" text-white">Python Full Stack Development</h2>
+            <span class="close" onclick="closeCourseModal('python')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'images/FSD.jpg' %}" alt="Full Stack Development" 
+                         class="img-fluid rounded shadow" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-check-circle text-success me-2"></i>Technologies Covered:</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Frontend:</strong> HTML5, CSS3, JavaScript, React.js, Bootstrap 5
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Backend:</strong> Python 3.11, Django 5.0, Flask, REST APIs
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Database:</strong> MySQL
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Tools:</strong> Git, GitHub
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-top">
+                <h5>Course Modules:</h5>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-code fa-2x text-primary mb-2"></i>
+                            <div class="text-black">Python Core</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fab fa-react fa-2x text-info mb-2"></i>
+                            <div class="text-black">Frontend Dev</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-database fa-2x text-secondary mb-2"></i>
+                            <div class="text-black">Databases</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-project-diagram fa-2x text-black mb-2"></i>
+                            <div class="text-black">Live Projects</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Cloud Security Modal -->
+<div id="cloudModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-badge">Curriculum Details</span>
+            <h2 class="modal-title">Cloud Security Engineering</h2>
+            <span class="close" onclick="closeCourseModal('cloud')">&times;</span>
+            
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'images/secure-cloud.jpg' %}" alt="Cloud Security" 
+                         class="img-fluid rounded shadow" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-check-circle text-success me-2"></i>Technologies Covered:</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Cloud:</strong> AWS, Azure, Google Cloud Platform
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Security:</strong> IAM, VPC, Security Groups, WAF
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Hacking:</strong> Ethical Hacking, Penetration Testing
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-circle text-primary me-2"></i>
+                            <strong>Tools:</strong> Wireshark, Nmap, Metasploit, Burp Suite
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-top">
+                <h5>Course Modules:</h5>
+                <div class="row text-center">
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fab fa-aws fa-2x text-warning mb-2"></i>
+                            <div class="text-black">AWS Core</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-shield-alt fa-2x text-danger mb-2"></i>
+                            <div class="text-black">Security</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-terminal fa-2x text-dark mb-2"></i>
+                            <div class="text-black">Ethical Hacking</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="bg-light p-3 rounded">
+                            <i class="fas fa-certificate fa-2x text-success mb-2"></i>
+                            <div class="text-black">Cert Prep</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4"></div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Modal -->
+<div id="aiModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-badge">Curriculum Details</span>
+            <h2 class="modal-title">Artificial Intelligence</h2>
+            <span class="close" onclick="closeCourseModal('ai')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'images/AI3.jpg' %}" alt="AI" class="img-fluid rounded shadow" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-check-circle text-success me-2"></i>Technologies Covered:</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Core AI:</strong> Machine Learning, Deep Learning</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Frameworks:</strong> TensorFlow, PyTorch, Scikit-learn</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Specialized:</strong> NLP, Computer Vision</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Deployment:</strong> Docker, AWS SageMaker</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Data Analysis Modal -->
+<div id="dataModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-badge">Curriculum Details</span>
+            <h2 class="modal-title">Data Analysis</h2>
+            <span class="close" onclick="closeCourseModal('data')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'images/DA2.jpg' %}" alt="Data Analysis" class="img-fluid rounded shadow" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-check-circle text-success me-2"></i>Technologies Covered:</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Python:</strong> Pandas, NumPy, Matplotlib</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Database:</strong> SQL, PostgreSQL</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Visualization:</strong> Power BI, Tableau</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Advanced:</strong> Statistics, Data Cleaning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Software Testing Modal -->
+<div id="testingModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-badge">Curriculum Details</span>
+            <h2 class="modal-title">Software Testing</h2>
+            <span class="close" onclick="closeCourseModal('testing')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'images/ST2.jpg' %}" alt="Software Testing" class="img-fluid rounded shadow" style="height: 300px; object-fit: cover;">
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-check-circle text-success me-2"></i>Technologies Covered:</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Manual:</strong> Test Cases, Bug Reporting</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Automation:</strong> Selenium, Appium</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>API:</strong> Postman, REST Assured</li>
+                        <li class="mb-2"><i class="fas fa-circle text-primary me-2"></i><strong>Process:</strong> Agile, STLC, ISTQB</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

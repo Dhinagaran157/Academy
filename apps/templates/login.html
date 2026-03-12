@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aerovant Academy · Login</title>
+
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 20% 40%, #0b0c15 0%, #010101 70%),
+                        radial-gradient(circle at 80% 10%, rgba(85, 130, 250, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 60% 80%, rgba(0, 255, 200, 0.2) 0%, transparent 50%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #eef2fb;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff08"/><stop offset="100%" stop-color="%23ffffff00"/></radialGradient></defs><circle cx="20" cy="20" r="2" fill="url(%23a)"><animate attributeName="cy" values="20;80;20" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="1.5" fill="url(%23a)"><animate attributeName="cy" values="80;20;80" dur="4s" repeatCount="indefinite"/></circle><circle cx="40" cy="40" r="1.8" fill="url(%23a)"><animate attributeName="cy" values="40;90;40" dur="2.5s" repeatCount="indefinite"/></circle></svg>') no-repeat center center;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* ========== MAIN LOGIN CONTAINER ========= */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* ========== GLASS LOGIN CARD ========= */
+        .login-card {
+            background: rgba(12, 16, 33, 0.6);
+            backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid rgba(72, 120, 255, 0.3);
+            border-radius: 32px;
+            padding: 48px;
+            box-shadow: 
+                0 35px 70px -20px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 0 0 1px rgba(255,255,255,0.05);
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5b8cff, #a0f0ff, #5b8cff);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        .login-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 45px 90px -25px rgba(0,0,0,0.9),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ========== BRAND HEADER ========= */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #5d9eff, #a0f0ff);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 20px 40px rgba(93, 158, 255, 0.3);
+            animation: pulse-glow 2s infinite;
+        }
+
+        .brand-logo i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 20px 40px rgba(93, 158, 255, 0.3); }
+            50% { box-shadow: 0 20px 40px rgba(93, 158, 255, 0.6); }
+        }
+
+        .brand-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #ffffff, #b3d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .brand-subtitle {
+            color: #8ba1d0;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* ========== USER TYPE TABS ========= */
+        .user-tabs {
+            display: flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 4px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            color: #b2c6ec;
+            border-radius: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn:hover {
+            color: white;
+            background: rgba(45,85,255,0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(145deg, rgba(45,85,255,0.8), rgba(102,16,242,0.8));
+            color: white;
+            box-shadow: 0 8px 20px rgba(45,85,255,0.3);
+        }
+
+        /* ========== FORM ELEMENTS ========= */
+        .form-floating {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            color: #eef2fb;
+            height: 60px;
+            padding: 20px 24px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control::placeholder {
+            color: #8ba1d0;
+        }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(91,140,255,0.6);
+            box-shadow: 0 0 0 0.25rem rgba(45,85,255,0.2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(45,85,255,0.2);
+        }
+
+        .form-floating > label {
+            color: #8ba1d0;
+            padding-left: 24px;
+            font-weight: 500;
+        }
+
+        /* ========== LOGIN BUTTON ========= */
+        .login-btn {
+            background: linear-gradient(145deg, rgba(45,85,255,0.9), rgba(102,16,242,0.9));
+            border: none;
+            border-radius: 25px;
+            height: 56px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(45,85,255,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(45,85,255,0.5);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* ========== USER TYPE INFO ========= */
+        .user-type-info {
+            text-align: center;
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(120,180,255,0.2);
+        }
+
+        .user-type-info i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .user-student { color: #a0f0ff; }
+        .user-admin { color: #ffd93d; }
+        .user-staff { color: #7ef0ba; }
+
+        /* ========== RESPONSIVE ========= */
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 32px 24px;
+                margin: 20px;
+            }
+            
+            .brand-title {
+                font-size: 1.8rem;
+            }
+            
+            main {
+                padding: 20px !important;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(10,14,26,0.5); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(145deg, #2c4880, #5b8cff);
+            border-radius: 20px;
+        }
+
+        .error-message {
+            background: rgba(220,53,69,0.2);
+            border: 1px solid rgba(220,53,69,0.4);
+            color: #ffa8a8;
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+    <div class="login-container">
+        <!-- LOGIN CARD -->
+        <div class="login-card">
+            <div class="brand-header">
+                <div class="brand-logo">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+                <div class="brand-title">AEROVANT</div>
+                <div class="brand-subtitle">Academy Portal</div>
+            </div>
+
+            <!-- User Type Selection -->
+            <div class="user-tabs">
+                <button class="tab-btn active" onclick="setUserType('student')" data-type="student">
+                    <i class="bi bi-person-student me-1"></i>
+                    Student
+                </button>
+                <button class="tab-btn" onclick="setUserType('admin')" data-type="admin">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    Admin
+                </button>
+                <button class="tab-btn" onclick="setUserType('staff')" data-type="staff">
+                    <i class="bi bi-person-gear me-1"></i>
+                    Staff
+                </button>
+            </div>
+
+            <!-- User Type Info -->
+            <div id="user-info" class="user-type-info user-student">
+                <i class="bi bi-person-student"></i>
+                <div><strong>Student Portal</strong></div>
+                <div class="text-muted small mt-1">Access courses, notes & results</div>
+            </div>
+
+            <!-- Login Form -->
+            <form method="POST" action="{% url 'login' %}" id="loginForm">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="error-message">
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
+                <input type="hidden" name="user_type" id="user_type" value="student">
+
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" name="username" placeholder="name@example.com" required>
+                    <label for="email">Email Address</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    <label for="password">Password</label>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                    Sign In
+                </button>
+            </form>
+
+            <div class="text-center mt-4">
+                <a href="#" class="text-muted small" style="text-decoration: none;">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setUserType(type) {
+            // Update active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update hidden field
+            document.getElementById('user_type').value = type;
+            
+            // Update user info
+            const info = document.getElementById('user-info');
+            info.className = `user-type-info user-${type}`;
+            
+            const icons = {
+                'student': 'bi-person-student',
+                'admin': 'bi-shield-lock',
+                'staff': 'bi-person-gear'
+            };
+            info.innerHTML = `
+                <i class="${icons[type]}"></i>
+                <div><strong>${type.charAt(0).toUpperCase() + type.slice(1)} Portal</strong></div>
+                <div class="text-muted small mt-1">${getUserDescription(type)}</div>
+            `;
+        }
+
+        function getUserDescription(type) {
+            const descriptions = {
+                'student': 'Access courses, notes & results',
+                'admin': 'Complete system administration',
+                'staff': 'Manage classes & attendance'
+            };
+            return descriptions[type];
+        }
+
+        // Auto-focus email on load
+        document.getElementById('email').focus();
+    </script>
+</body>
+</html>
