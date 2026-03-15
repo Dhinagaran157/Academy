@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)mbee0ycr589t4&_5z36oqi&35ss-jv+ipd197my)%liuvlxtd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Aerovant_Academic.urls'
@@ -148,4 +149,3 @@ EMAIL_HOST_PASSWORD = 'xtme qbuk lcme fmkk'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 1800   # 30 minutes
 
-ALLOWED_HOSTS = ["*"]
