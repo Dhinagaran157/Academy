@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Aerovant_Academic.urls'
@@ -76,10 +77,8 @@ WSGI_APPLICATION = 'Aerovant_Academic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'arovant_db',
-        'USER':'root',
-        'PASSWORD':'',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -149,3 +148,4 @@ EMAIL_HOST_PASSWORD = 'xtme qbuk lcme fmkk'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 1800   # 30 minutes
 
+ALLOWED_HOSTS = ["*"]
